@@ -1,0 +1,48 @@
+# Kotlin build outputs
+*.class
+*.jar
+*.war
+*.ear
+*.kotlin_module
+
+# Gradle
+.gradle/
+build/
+out/
+
+# Maven (if used)
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code (optional)
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.pid
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Environment/config
+.env
+application-local.yml
+application-local.properties
