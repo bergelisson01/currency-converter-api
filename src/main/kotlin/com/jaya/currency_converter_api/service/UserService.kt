@@ -1,9 +1,9 @@
 package com.jaya.currency_converter_api.service
 
-import com.jaya.currency_converter_api.entity.model.User
+import com.jaya.currency_converter_api.dto.UserDTO
 import java.util.*
 
 interface UserService {
-    fun fetchAllUser(): List<User>
-    fun getUserById(id: UUID): User
+    fun fetchAllUser(): List<UserDTO>
+    fun getUserById(id: UUID): UserDTO
 }

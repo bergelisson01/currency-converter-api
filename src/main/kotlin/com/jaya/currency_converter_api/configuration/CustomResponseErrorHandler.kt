@@ -16,7 +16,7 @@ class CustomResponseErrorHandler : DefaultResponseErrorHandler() {
         when (response.statusCode) {
             HttpStatus.NOT_FOUND -> throw NotFoundException(body)
             HttpStatus.BAD_REQUEST -> throw BadRequestException(body)
-            else -> throw GenericException(body, response.statusCode)
+            else -> throw GenericException(body, response.statusCode.value())
         }
     }
 
@@ -32,4 +32,4 @@ class CustomResponseErrorHandler : DefaultResponseErrorHandler() {
 class NotFoundException(message: String?) : RuntimeException(message)
 class BadRequestException(message: String?) : RuntimeException(message)
 class OperationException(message: String?) : RuntimeException(message)
-class GenericException(message: String?, val statusCode: HttpStatusCode) : RuntimeException(message)
+class GenericException(message: String?, val statusCode: Int) : RuntimeException(message)
