@@ -10,6 +10,8 @@ import com.jaya.currency_converter_api.entity.model.Transaction
 import com.jaya.currency_converter_api.entity.model.User
 import com.jaya.currency_converter_api.repository.TransactionRepository
 import com.jaya.currency_converter_api.repository.UserRepository
+import com.jaya.currency_converter_api.service.internal.ExchangeRatesApiServiceImpl
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -17,6 +19,7 @@ import java.util.*
 
 @Service
 class TransactionServiceImpl : TransactionService {
+    private val logger = KotlinLogging.logger(TransactionServiceImpl::class.toString())
 
     @Autowired lateinit var transactionRepository: TransactionRepository
     @Autowired lateinit var userRepository: UserRepository
@@ -71,7 +74,7 @@ class TransactionServiceImpl : TransactionService {
                 error
             )
         }
-
         this.saveTransaction(transaction)
+        this.logger.info { "Transaction registered successfuly: ${transaction}" }
     }
 }

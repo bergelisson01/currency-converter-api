@@ -10,8 +10,6 @@ class CurrencyUtils {
             return SimpleDateFormat(format).format(date)
         }
 
-        fun roundDouble(scale: Int, value: Double): Double {
-            return value.toBigDecimal().setScale(scale, RoundingMode.UP).toDouble()
-        }
+        fun roundDouble(scale: Int, value: Double) = value.toBigDecimal().setScale(scale, RoundingMode.UP).toDouble()
     }
 }

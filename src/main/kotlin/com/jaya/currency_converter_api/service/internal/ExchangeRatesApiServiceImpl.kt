@@ -7,6 +7,7 @@ import com.jaya.currency_converter_api.dto.*
 import com.jaya.currency_converter_api.entity.model.User
 import com.jaya.currency_converter_api.service.ClientApiService
 import com.jaya.currency_converter_api.utils.CurrencyUtils
+import mu.KotlinLogging
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpStatus
 import org.springframework.util.LinkedMultiValueMap
@@ -15,6 +16,8 @@ import java.util.*
 
 class ExchangeRatesApiServiceImpl : CurrencyApiService {
     private val ALLOWED_BASE_CURRENCY = listOf("EUR")
+
+    private val logger = KotlinLogging.logger(ExchangeRatesApiServiceImpl::class.toString())
 
     private val user: User
     private val providerConfig: ConfigApiProvider
@@ -43,9 +46,9 @@ class ExchangeRatesApiServiceImpl : CurrencyApiService {
         val info = Info(Date().time, rate)
         val result = CurrencyUtils.roundDouble(6, rate * request.amount)
         val date = CurrencyUtils.formatDate("dd-MM-yyyy", Date())
-        val convertResponse = ConvertResponse(true, query, info, "", date, result)
-
-        return CurrencyResponseDTO(convertResponse, null, HttpStatus.OK.value())
+        val convertedResponse = ConvertResponse(true, query, info, "", date, result)
+        this.logger.info { "Successfuly converted: ${request} to ${convertedResponse}" }
+        return CurrencyResponseDTO(convertedResponse, null, HttpStatus.OK.value())
     }
 
     override fun getRates(baseCurrency: String): CurrencyRatesDTO {
@@ -61,6 +64,10 @@ class ExchangeRatesApiServiceImpl : CurrencyApiService {
 
         if (response.statusCode != HttpStatus.OK.value()) {
             throw BadRequestException(response.error ?: "Rates not found for current request.")
+        }
+
+        response.data?.let {
+            this.logger.info { "Get Rates Successfuly executed: ${it}" }
         }
 
         return response.data ?: throw BadRequestException("Rates not found for current request.")

@@ -15,14 +15,11 @@ import java.time.LocalDate
 import java.util.UUID
 
 @Service
-class CurrencyConverterApiServiceImpl : CurrencyConverterApiService {
-
-    @Autowired
-    lateinit var configApiProviderProperties: ConfigApiProviderProperties
-    @Autowired
-    lateinit var userRepository: UserRepository
-    @Autowired
-    lateinit var clientApiService: ClientApiServiceImpl
+class CurrencyConverterApiServiceImpl(
+    val configApiProviderProperties: ConfigApiProviderProperties,
+    val userRepository: UserRepository,
+    val clientApiService: ClientApiServiceImpl
+) : CurrencyConverterApiService {
 
     override fun convert(userId: UUID, request: CurrencyConverterDTO): CurrencyResponseDTO<ConvertResponse> {
         val opt = this.userRepository.findById(userId)

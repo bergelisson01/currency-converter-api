@@ -8,6 +8,7 @@ import com.jaya.currency_converter_api.dto.*
 import com.jaya.currency_converter_api.entity.model.Transaction
 import com.jaya.currency_converter_api.service.CurrencyConverterApiServiceImpl
 import com.jaya.currency_converter_api.service.TransactionServiceImpl
+import com.jaya.currency_converter_api.service.internal.ExchangeRatesApiServiceImpl
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,6 +35,8 @@ class CurrencyConverterController(
     private val currencyConverterService: CurrencyConverterApiServiceImpl,
     private val transactionService: TransactionServiceImpl
 ) {
+    private val logger = KotlinLogging.logger(CurrencyConverterController::class.toString())
+
     @PostMapping("/{userId}/convert")
     @Operation(
         summary = "Currency Convert",
@@ -72,7 +76,7 @@ class CurrencyConverterController(
             response = currencyConverterService.convert(userId, request)
         } catch (e: ApiIntegrationException) {
             this.transactionService.registerTransactionFromConverterRequest(userId, request, null, e.message)
-            println("Error reading response body: ${e.message}")
+            this.logger.error { "Error reading response body: ${e.message}" }
             return ResponseEntity.status(HttpStatus.valueOf(e.statusCode)).body(e.message)
         } catch (e: Exception) {
             this.transactionService.registerTransactionFromConverterRequest(userId, request, null, e.message)
@@ -83,18 +87,19 @@ class CurrencyConverterController(
                 is BadRequestException -> "bar_redquest_error"
                 else -> "general_error"
             }
-            println("Error reading response body: ${e.message}")
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(CurrencyConverterErrorDTO(ErrorDTO(code, error)))
+            val body = CurrencyConverterErrorDTO(ErrorDTO(code, error))
+            this.logger.error { "Error reading response body: ${body}" }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
         }
 
         response.data?.let {
             this.transactionService.registerTransactionFromConverterRequest(userId, request, it, null)
+            this.logger.info { "Success: ${it}" }
             return ResponseEntity.ok(it)
         }
 
         this.transactionService.registerTransactionFromConverterRequest(userId, request, null, response.error)
+        this.logger.error { "Error reading response body: ${response.error}" }
         return ResponseEntity.status(response.statusCode).body(response.error)
     }
 
@@ -129,6 +134,9 @@ class CurrencyConverterController(
         var response: CurrencyResponseDTO<CurrencyRatesDTO>
         try {
             response = currencyConverterService.getRates(userId, base)
+        } catch (e: ApiIntegrationException) {
+            this.logger.error { "Error reading response body: ${e.message}" }
+            return ResponseEntity.status(HttpStatus.valueOf(e.statusCode)).body(e.message)
         } catch (e: Exception) {
             val error = e.message ?: "General error"
             val code = when(e) {
@@ -137,16 +145,17 @@ class CurrencyConverterController(
                 is BadRequestException -> "bar_redquest_error"
                 else -> "general_error"
             }
-            println("Error reading response body: ${e.message}")
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(CurrencyConverterErrorDTO(ErrorDTO(code, error)))
+            val body = CurrencyConverterErrorDTO(ErrorDTO(code, error))
+            this.logger.error { "Error reading response body: ${body}" }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
         }
 
         response.data?.let {
+            this.logger.info { "Success: ${it}" }
             return ResponseEntity.ok(it)
         }
 
+        this.logger.error { "Error reading response body: ${response.error}" }
         return ResponseEntity.status(response.statusCode).body(response.error)
     }
 }
