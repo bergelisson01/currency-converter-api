@@ -1,0 +1,21 @@
+package com.jaya.currency_converter_api.dto
+
+data class ConvertResponse(
+    val success: Boolean,
+    val query: Query,
+    val info: Info,
+    val historical: String,
+    val date: String,
+    val result: Double
+)
+
+data class Query(
+    val from: String,
+    val to: String,
+    val amount: Double
+)
+
+data class Info(
+    val timestamp: Long,
+    val rate: Double
+)

@@ -1,3 +1,4 @@
+import com.jaya.currency_converter_api.dto.CurrencyConverterErrorDTO
 import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.client.DefaultResponseErrorHandler
 import org.springframework.http.HttpStatus
@@ -13,11 +14,7 @@ class CustomResponseErrorHandler : DefaultResponseErrorHandler() {
 
     override fun handleError(response: ClientHttpResponse) {
         val body = this.getResponseBodyAsString(response)
-        when (response.statusCode) {
-            HttpStatus.NOT_FOUND -> throw NotFoundException(body)
-            HttpStatus.BAD_REQUEST -> throw BadRequestException(body)
-            else -> throw GenericException(body, response.statusCode.value())
-        }
+        throw ApiIntegrationException(body, response.statusCode.value())
     }
 
     private fun getResponseBodyAsString(response: ClientHttpResponse): String {
@@ -32,4 +29,4 @@ class CustomResponseErrorHandler : DefaultResponseErrorHandler() {
 class NotFoundException(message: String?) : RuntimeException(message)
 class BadRequestException(message: String?) : RuntimeException(message)
 class OperationException(message: String?) : RuntimeException(message)
-class GenericException(message: String?, val statusCode: Int) : RuntimeException(message)
+class ApiIntegrationException(message: String?, val statusCode: Int) : RuntimeException(message)

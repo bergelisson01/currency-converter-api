@@ -30,20 +30,33 @@ data class User(
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", nullable = false)
     val provider: CurrencyConverterProviderEnum,
+
+    @Column(name = "access_key", nullable = true)
+    val accessKey: String?,
 ) {
-    constructor() : this(null, "Admin", "admin@admin.com", true, CurrencyConverterProviderEnum.SANDBOX_PROVIDER)
-    constructor(name: String, email: String, provider: CurrencyConverterProviderEnum) : this(
+    constructor() : this(
+        null,
+        "Admin",
+        "admin@admin.com",
+        true,
+        CurrencyConverterProviderEnum.SANDBOX_PROVIDER,
+        "212c807c558aaa2a2dba5a98696d08e5"
+
+    )
+    constructor(name: String, email: String, provider: CurrencyConverterProviderEnum, accessKey: String?) : this(
         null,
         name,
         email,
         true,
-        provider
+        provider,
+        accessKey
     )
-    constructor(name: String, provider: CurrencyConverterProviderEnum) : this(
+    constructor(name: String, provider: CurrencyConverterProviderEnum, accessKey: String?) : this(
         null,
         name,
         null,
         true,
-        provider
+        provider,
+        accessKey
     )
 }
