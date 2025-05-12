@@ -6,4 +6,5 @@ import java.util.*
 interface UserService {
     fun fetchAllUser(): List<UserDTO>
     fun getUserById(id: UUID): UserDTO
+    fun create(request: UserDTO): UserDTO
 }

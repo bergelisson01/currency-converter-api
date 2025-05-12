@@ -5,6 +5,10 @@
 *.ear
 *.kotlin_module
 
+# Bin
+.bin/
+bin/
+
 # Gradle
 .gradle/
 build/

@@ -3,6 +3,7 @@ package com.jaya.currency_converter_api.dto
 import com.jaya.currency_converter_api.entity.enums.CurrencyConverterProviderEnum
 import com.jaya.currency_converter_api.entity.model.User
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.NotNull
 import java.util.*
 
 @Schema(description = "User")
@@ -20,6 +21,7 @@ data class UserDTO(
         example = "Berg Cavalcante",
         type = "String"
     )
+    @field:NotNull(message = "Name must not be null")
     val name: String,
     @field:Schema(
         description = "Email of the user (optional)",
@@ -31,7 +33,14 @@ data class UserDTO(
         description = "Key for Configuration for external api provider: [EXCHANGE_RATES_API_PROVIDER, SANDBOX_PROVIDER, NONE]",
         example = "EXCHANGE_RATES_API_PROVIDER"
     )
+    @field:NotNull(message = "provider must not be null")
     val provider: CurrencyConverterProviderEnum,
+    @field:Schema(
+        description = "Access Key for external provider api",
+        example = "1290823918018237987123810",
+        type = "String"
+    )
+    val accessKey: String?,
 ) {
-    constructor(user: User) : this(user.id, user.name, user.email, user.provider)
+    constructor(user: User) : this(user.id, user.name, user.email, user.provider, user.accessKey)
 }

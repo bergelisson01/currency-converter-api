@@ -1,5 +1,6 @@
 package com.jaya.currency_converter_api.entity.model
 
+import com.jaya.currency_converter_api.dto.UserDTO
 import com.jaya.currency_converter_api.entity.enums.CurrencyConverterProviderEnum
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -58,5 +59,13 @@ data class User(
         true,
         provider,
         accessKey
+    )
+    constructor(request: UserDTO) : this(
+        null,
+        request.name,
+        request.email,
+        true,
+        request.provider,
+        request.accessKey
     )
 }

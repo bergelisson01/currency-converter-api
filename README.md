@@ -39,7 +39,18 @@ exception: Centralized error handling
 🚀 How to Run
 Make sure you have MySQL running and a database created (e.g., currency_db).
 
-Update your application.yml or application.properties with your DB credentials.
+First of all, 
+1. Install Docker Desktop
+https://docs.docker.com/compose/install/
+
+2. Install JDK 17
+java -version
+openjdk version "17.0.15" 2025-04-15 LTS
+OpenJDK Runtime Environment Zulu17.58+21-CA (build 17.0.15+6-LTS)
+OpenJDK 64-Bit Server VM Zulu17.58+21-CA (build 17.0.15+6-LTS, mixed mode, sharing)
+
+javac -version
+javac 17.0.15
 
 Then:
 
@@ -50,10 +61,18 @@ Editar
 git clone https://github.com/your-user/currency-converter-api.git
 cd currency-converter-api
 
-# Run with Maven or Gradle (depending on your setup)
-./mvnw spring-boot:run
-# or
+# Create Database container
+docker-compose -f docker-compose.yml up -d
+
+# Create datasource (ONLY IF YOU CHANGE THE INFORMATION IN docker-compose.yml)
+Update your application.yml or application.properties with your DB credentials. In this specific lines
+spring.datasource.url=jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/${DATABASE_NAME:currency_db}
+spring.datasource.username=${DATABASE_USERNAME:admin}
+spring.datasource.password=${DATABASE_PASSWORD:admin}
+
+# Build with Gradle
+./gradlew build
+# Run with Gradle
 ./gradlew bootRun
 
-
-Once running, access the API at: http://localhost:8080
+Once running, access the API at: http://localhost:8081/swagger-ui/index.html
