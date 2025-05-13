@@ -11,9 +11,12 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
-	}
+	sourceCompatibility = JavaVersion.VERSION_17 // or the version you are using
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+	jvmToolchain(17) // or the version you are using
 }
 
 repositories {
