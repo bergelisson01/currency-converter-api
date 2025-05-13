@@ -64,15 +64,9 @@ cd currency-converter-api
 # Create Database container
 docker-compose -f docker-compose.yml up -d
 
-# Create datasource (ONLY IF YOU CHANGE THE INFORMATION IN docker-compose.yml)
-Update your application.yml or application.properties with your DB credentials. In this specific lines
-spring.datasource.url=jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/${DATABASE_NAME:currency_db}
-spring.datasource.username=${DATABASE_USERNAME:admin}
-spring.datasource.password=${DATABASE_PASSWORD:admin}
-
 # Build with Gradle
 ./gradlew build
 # Run with Gradle
-./gradlew bootRun
+java -jar build/libs/currency-converter-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 
 Once running, access the API at: http://localhost:8081/swagger-ui/index.html

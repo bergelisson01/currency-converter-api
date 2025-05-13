@@ -1,1 +1,1 @@
-web: java -jar build/libs/currency-converter-api-0.0.1-SNAPSHOT.jar
+web: java -jar build/libs/currency-converter-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod

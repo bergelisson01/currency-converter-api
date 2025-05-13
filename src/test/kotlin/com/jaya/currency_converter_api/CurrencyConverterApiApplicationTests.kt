@@ -18,12 +18,14 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 
 @SpringBootTest
+@ActiveProfiles("dev")
 class CurrencyConverterApiApplicationTests {
 
 	@Autowired
