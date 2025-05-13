@@ -35,23 +35,35 @@ MySQL for relational data persistence
 Satisfactory test coverage
 
 🛠 Tech Stack
+
 Kotlin
+
 Spring Boot
+
 MySQL
+
 REST API
+
 JUnit for unit/integration tests
 
 📑 Folder Structure & Architecture
+
 The application follows a clean and modular architecture with separation of responsibilities:
 
 controller: Handles HTTP requests and API responses
+
 service: Contains the business logic
+
 repository: Interfaces for database access using Spring Data JPA
+
 entity/model: Data definitions
+
 dto: Data Transfer Objects used in the API
+
 exception: Centralized error handling
 
 🚀 How to Run
+
 Make sure you have MySQL running and a database created (e.g., currency_db).
 
 First of all, 
