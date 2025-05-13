@@ -93,8 +93,9 @@ cd currency-converter-api
 docker-compose -f docker-compose.yml up -d
 ```
 # Build with Gradle
+- The test suite will run automatically when you execute the following command:
 ```
-./gradlew build
+./gradlew clean build
 ```
 # Run with Gradle
 ```
