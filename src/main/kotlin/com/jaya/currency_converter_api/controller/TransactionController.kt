@@ -39,20 +39,39 @@ class TransactionController(
             content = [
                 Content(
                     mediaType = "application/json",
-                    array = ArraySchema(schema = Schema(implementation = Transaction::class))
+                    array = ArraySchema(schema = Schema(implementation = CurrencyResponseListTransaction::class))
                 )
-            ]),
+            ]
+        ),
         ApiResponse(
             responseCode = "404",
-            description = "User Not Found"
+            description = "User Not Found",
+            content = [
+                Content(
+                    mediaType = "application/json",
+                    array = ArraySchema(schema = Schema(implementation = CurrencyResponseListTransaction::class))
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Bad Request"
+            description = "Bad Request",
+            content = [
+                Content(
+                    mediaType = "application/json",
+                    array = ArraySchema(schema = Schema(implementation = CurrencyResponseListTransaction::class))
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "Internal Server Error"
+            description = "Internal Server Error",
+            content = [
+                Content(
+                    mediaType = "application/json",
+                    array = ArraySchema(schema = Schema(implementation = CurrencyResponseListTransaction::class))
+                )
+            ]
         )
     ])
     fun getAllTransactionsByUserId(@PathVariable userId: UUID): ResponseEntity<Any> {
@@ -82,20 +101,36 @@ class TransactionController(
             description = "Successful operation",
             content = [
                 Content(
-                    schema = Schema(implementation = Transaction::class)
+                    schema = Schema(implementation = CurrencyResponseTransaction::class)
                 )
-            ]),
+            ]
+        ),
         ApiResponse(
             responseCode = "404",
-            description = "User Not Found"
+            description = "User Not Found",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseTransaction::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Bad Request"
+            description = "Bad Request",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseTransaction::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "Internal Server Error"
+            description = "Internal Server Error",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseTransaction::class)
+                )
+            ]
         )
     ])
     fun getTransactionById(@PathVariable id: UUID): ResponseEntity<Any> {
@@ -113,7 +148,7 @@ class TransactionController(
             val code = when(e) {
                 is OperationException -> "operation_error"
                 is NotFoundException -> "not_foundtá n_error"
-                is BadRequestException -> "bar_redquest_error"
+                is BadRequestException -> "bad_redquest_error"
                 else -> "general_error"
             }
             val body = CurrencyConverterErrorDTO(ErrorDTO(code, error))

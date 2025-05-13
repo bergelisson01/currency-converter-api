@@ -63,7 +63,7 @@ class ExchangeRatesApiServiceImpl : CurrencyApiService {
         )
 
         if (response.statusCode != HttpStatus.OK.value()) {
-            throw BadRequestException(response.error ?: "Rates not found for current request.")
+            throw BadRequestException(response.error?.toString() ?: "Rates not found for current request.")
         }
 
         response.data?.let {

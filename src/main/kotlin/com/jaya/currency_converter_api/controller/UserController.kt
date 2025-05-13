@@ -34,20 +34,36 @@ class UserController(
             description = "Successful operation",
             content = [
                 Content(
-                    schema = Schema(implementation = CurrencyResponseDTO::class)
+                    schema = Schema(implementation = CurrencyResponseListUser::class)
                 )
-            ]),
+            ]
+        ),
         ApiResponse(
             responseCode = "404",
-            description = "Users Not Found"
+            description = "Users Not Found",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseListUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Bad Request"
+            description = "Bad Request",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseListUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "Internal Server Error"
+            description = "Internal Server Error",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseListUser::class)
+                )
+            ]
         )
     ])
     fun getAllUsers(): ResponseEntity<CurrencyResponseDTO<List<UserDTO>>> {
@@ -63,20 +79,35 @@ class UserController(
             description = "Successful operation",
             content = [
                 Content(
-                    schema = Schema(implementation = UserDTO::class)
+                    schema = Schema(implementation = CurrencyResponseUser::class)
                 )
             ]),
         ApiResponse(
             responseCode = "404",
-            description = "User Not Found"
+            description = "User Not Found",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Bad Request"
+            description = "Bad Request",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "Internal Server Error"
+            description = "Internal Server Error",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         )
     ])
     fun getUserById(@PathVariable id: UUID): ResponseEntity<CurrencyResponseDTO<UserDTO>> {
@@ -92,7 +123,33 @@ class UserController(
     @Operation(
         summary = "Create User",
         requestBody = io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Create User request",
+            description = """
+<h2>Field Descriptions</h2>
+
+<ul>
+  <li>
+    <strong>name</strong> (<code>string</code>):<br>
+    The name of the external API provider.
+  </li>
+
+  <li>
+    <strong>email</strong> (<code>string</code>, <em>optional</em>):<br>
+    The email address of the user.<br>
+    <em>Note: This field is not used as a primary key.</em>
+  </li>
+
+  <li>
+    <strong>provider</strong> (<code>string</code>):<br>
+    A unique key identifying the external API provider.<br>
+    Supported values: <code>SANDBOX_PROVIDER</code>, <code>EXCHANGE_RATES_API_PROVIDER</code>.
+  </li>
+
+  <li>
+    <strong>accessKey</strong> (<code>string</code>, <em>optional</em>):<br>
+    The access key used to authenticate with the external API, typically included in the request header if required.
+  </li>
+</ul>
+            """,
             required = true,
             content = [Content(schema = Schema(implementation = UserDTO::class))]
         ))
@@ -102,20 +159,36 @@ class UserController(
             description = "Successful operation",
             content = [
                 Content(
-                    schema = Schema(implementation = CurrencyResponseDTO::class)
+                    schema = Schema(implementation = CurrencyResponseUser::class)
                 )
-            ]),
+            ]
+        ),
         ApiResponse(
             responseCode = "404",
-            description = "User Not Found"
+            description = "User Not Found",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "400",
-            description = "Bad Request"
+            description = "Bad Request",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "Internal Server Error"
+            description = "Internal Server Error",
+            content = [
+                Content(
+                    schema = Schema(implementation = CurrencyResponseUser::class)
+                )
+            ]
         )
     ])
     fun postConvert(
