@@ -1,5 +1,9 @@
 package com.jaya.currency_converter_api.controller
 
+import BadRequestException
+import NotFoundException
+import OperationException
+import com.jaya.currency_converter_api.dto.*
 import com.jaya.currency_converter_api.entity.model.Transaction
 import com.jaya.currency_converter_api.service.TransactionServiceImpl
 import io.swagger.v3.oas.annotations.Operation
@@ -9,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import mu.KotlinLogging
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,6 +28,7 @@ import java.util.UUID
 class TransactionController(
     private val transactionService: TransactionServiceImpl
 ) {
+    private val logger = KotlinLogging.logger(TransactionController::class.toString())
 
     @GetMapping("/{userId}/all")
     @Operation(summary = "Get transactions by User uuid")
@@ -48,8 +55,24 @@ class TransactionController(
             description = "Internal Server Error"
         )
     ])
-    fun getAllTransactionsByUserId(@PathVariable userId: UUID): List<Transaction> =
-        transactionService.fetchAllTransactionByUserId(userId)
+    fun getAllTransactionsByUserId(@PathVariable userId: UUID): ResponseEntity<Any> {
+        try {
+            return  ResponseEntity.ok(
+                CurrencyResponseDTO(transactionService.fetchAllTransactionByUserId(userId), null, HttpStatus.OK.value())
+            )
+        } catch (e: Exception) {
+            val error = e.message ?: "General error"
+            val code = when(e) {
+                is OperationException -> "operation_error"
+                is NotFoundException -> "not_found_error"
+                is BadRequestException -> "bar_redquest_error"
+                else -> "general_error"
+            }
+            val body = CurrencyConverterErrorDTO(ErrorDTO(code, error))
+            this.logger.error { "Error reading response body: ${body}" }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
+        }
+    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get transactions by uuid")
@@ -75,12 +98,27 @@ class TransactionController(
             description = "Internal Server Error"
         )
     ])
-    fun getTransactionById(@PathVariable id: UUID): ResponseEntity<Transaction> {
-        val transaction = transactionService.getTransactionById(id)
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction)
-        } else {
-            return ResponseEntity.notFound().build()
+    fun getTransactionById(@PathVariable id: UUID): ResponseEntity<Any> {
+        try {
+            val transaction = transactionService.getTransactionById(id)
+            if (transaction != null) {
+                return ResponseEntity.ok(
+                    CurrencyResponseDTO(ResponseEntity.ok(transaction), null, HttpStatus.OK.value())
+                )
+            } else {
+                return ResponseEntity.notFound().build()
+            }
+        } catch (e: Exception) {
+            val error = e.message ?: "General error"
+            val code = when(e) {
+                is OperationException -> "operation_error"
+                is NotFoundException -> "not_foundtá n_error"
+                is BadRequestException -> "bar_redquest_error"
+                else -> "general_error"
+            }
+            val body = CurrencyConverterErrorDTO(ErrorDTO(code, error))
+            this.logger.error { "Error reading response body: ${body}" }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
         }
     }
 }

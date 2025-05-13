@@ -21,7 +21,7 @@ class CurrencyConverterApiServiceImpl(
     val clientApiService: ClientApiServiceImpl
 ) : CurrencyConverterApiService {
 
-    override fun convert(userId: UUID, request: CurrencyConverterDTO): CurrencyResponseDTO<ConvertResponse> {
+    override fun convert(userId: UUID, request: CurrencyConverterDTO): CurrencyResponseDTO<CurrencyConverterResponseDTO> {
         val opt = this.userRepository.findById(userId)
         if (opt.isEmpty) throw NotFoundException("Not found user for id ${userId}.")
         val user = opt.get()

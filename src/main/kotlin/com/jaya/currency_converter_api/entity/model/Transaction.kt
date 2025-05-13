@@ -3,7 +3,7 @@ package com.jaya.currency_converter_api.entity.model
 import com.jaya.currency_converter_api.entity.enums.CurrencyConverterProviderEnum
 import com.jaya.currency_converter_api.entity.enums.CurrencyConverterStatusEnum
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.util.Date
 import java.util.UUID
 
 @Entity
@@ -25,7 +25,7 @@ data class Transaction(
     @Column(name = "conversion_rate", nullable = true)
     var conversionRate: Double?,
     @Column(name = "date", nullable = false)
-    var date: LocalDate,
+    var date: Date,
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", nullable = false)
     var provider: CurrencyConverterProviderEnum,

@@ -23,7 +23,7 @@ class SandboxCurrencyApiServiceImpl : CurrencyApiService {
         this.clientApiService = clientApiService
     }
 
-    override fun convert(request: CurrencyConverterDTO): CurrencyResponseDTO<ConvertResponse> {
+    override fun convert(request: CurrencyConverterDTO): CurrencyResponseDTO<CurrencyConverterResponseDTO> {
         if (request.from.isEmpty() || !ALLOWED_BASE_CURRENCY.contains(request.from)) {
             throw OperationException("Not supported base currency ${request.from}. Please Try ${ALLOWED_BASE_CURRENCY}.")
         }
@@ -39,8 +39,8 @@ class SandboxCurrencyApiServiceImpl : CurrencyApiService {
         val query = Query(request.from, request.to, request.amount)
         val info = Info(Date().time, rate)
         val result = CurrencyUtils.roundDouble(6, rate * request.amount)
-        val date = CurrencyUtils.formatDate("dd-MM-yyyy", Date())
-        val convertResponse = ConvertResponse(true, query, info, "", date, result)
+        val date = CurrencyUtils.formatDate("dd-MM-yyyy HH:mm:ss.SSS", Date())
+        val convertResponse = CurrencyConverterResponseDTO(true, query, info, date, result)
 
         return CurrencyResponseDTO(convertResponse, null, HttpStatus.OK.value())
     }

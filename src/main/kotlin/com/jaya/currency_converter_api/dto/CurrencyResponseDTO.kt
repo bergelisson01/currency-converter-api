@@ -5,8 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(name = "CurrencyResponse")
 data class CurrencyResponseDTO<T>(
     @field:Schema(
-        description = "Entidade",
-        example = "[UserDTO, TransactionDTO...]"
+        description = "Data has the return entity."
     )
     val data: T?,
     @field:Schema(

@@ -39,16 +39,36 @@ class CurrencyConverterController(
 
     @PostMapping("/{userId}/convert")
     @Operation(
-        summary = "Currency Convert",
+        summary = "Converts a given amount from EUR to another valid currency using the latest exchange rates.",
         requestBody = io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Currency converter request",
+            description = """
+## Field Descriptions
+### from (String): The base currency. Only EUR is allowed. Any other value should result in a 400 Bad Request.
+### to (String): The target currency to which the conversion will be made. Must be a valid ISO currency code supported by the external exchange rate API. If the currency is invalid or unsupported, return a 400 Bad Request.
+### amount (Number / Double): The numeric value to convert. Must be greater than zero. If the value is zero or negative, return a 400 Bad Request.
+## Validation Rules
+### from !== "EUR" → 400 Bad Request with an error message.
+### to not in supported currencies → 400 Bad Request with an error message.
+### amount <= 0 → 400 Bad Request with an error message.
+
+## A successful or error operation should create a transaction.
+            """,
             required = true,
             content = [Content(schema = Schema(implementation = CurrencyConverterDTO::class))]
         ))
     @ApiResponses(value = [
         ApiResponse(
             responseCode = "200",
-            description = "Successful operation",
+            description = """
+## Response
+### data (Object): The base currency. Only EUR is allowed. Any other value should result in a 400 Bad Request.
+### to (String): The target currency to which the conversion will be made. Must be a valid ISO currency code supported by the external exchange rate API. If the currency is invalid or unsupported, return a 400 Bad Request.
+### amount (Number / Double): The numeric value to convert. Must be greater than zero. If the value is zero or negative, return a 400 Bad Request.
+# Validation Rules
+### from !== "EUR" → 400 Bad Request with an error message.
+### to not in supported currencies → 400 Bad Request with an error message.
+### amount <= 0 → 400 Bad Request with an error message.
+            """,
             content = [
                 Content(
                     schema = Schema(implementation = CurrencyResponseDTO::class)
@@ -71,7 +91,7 @@ class CurrencyConverterController(
         @PathVariable userId: UUID,
         @Valid @RequestBody request: CurrencyConverterDTO
     ): ResponseEntity<Any> {
-        var response: CurrencyResponseDTO<ConvertResponse>
+        var response: CurrencyResponseDTO<CurrencyConverterResponseDTO>
         try {
             response = currencyConverterService.convert(userId, request)
         } catch (e: ApiIntegrationException) {
@@ -108,7 +128,13 @@ class CurrencyConverterController(
     @ApiResponses(value = [
         ApiResponse(
             responseCode = "200",
-            description = "Successful operation",
+            description = """
+## Field Descriptions
+### userId (UUID) (path param): The UUID of an existent user in database.
+### base (String) (query param): The base currency to get the rates from. IF the currency is invalid or unsupported, return a 400 Bad Request.
+## Validation Rules
+### from !== "EUR" → 400 Bad Request with an error message.
+            """,
             content = [
                 Content(
                     schema = Schema(implementation = CurrencyResponseDTO::class)
