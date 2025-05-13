@@ -102,5 +102,3 @@ java -jar build/libs/currency-converter-api-0.0.1-SNAPSHOT.jar --spring.profiles
 ```
 
 Once running, access the API at: http://localhost:8081/swagger-ui/index.html
-
-📑 Folder Structure & Architecture
