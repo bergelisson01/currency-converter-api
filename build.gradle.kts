@@ -13,10 +13,9 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 java {
 	sourceCompatibility = JavaVersion.VERSION_17 // or the version you are using
 	targetCompatibility = JavaVersion.VERSION_17
-}
-
-kotlin {
-	jvmToolchain(17) // or the version you are using
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of("17"))
+	}
 }
 
 repositories {
@@ -40,10 +39,13 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+
+
 kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
 	}
+	jvmToolchain(17)
 }
 
 allOpen {
