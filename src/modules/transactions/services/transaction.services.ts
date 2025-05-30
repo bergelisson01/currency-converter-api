@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import { ConvertRequestDto } from '../dto/convert-request.dto';
 import { TransactionRepository } from '../repositories/transaction.repository';
 import { CurrencyApiService } from '../../currency-api/services/currency-api.service';

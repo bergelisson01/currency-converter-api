@@ -1,5 +1,5 @@
 import { AppModule } from './app.module';
-import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
+import { GlobalExceptionFilter } from './shared/exceptions/http-exception.filter';
 import { Logger } from 'nestjs-pino';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';

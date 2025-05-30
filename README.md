@@ -31,34 +31,34 @@ The goal of this project is to implement a backend API that allows converting be
 
 The project uses **layered architecture** inspired by **Clean Architecture**, promoting separation of concerns and scalability:
 
+```
 ├── src
 │   ├── modules
+│   │   └── currency-api
+│   │   │   ├── services
 │   │   └── transactions
 │   │       ├── controllers
 │   │       ├── services
 │   │       ├── repositories
 │   │       └── dto
 │   ├── shared
-│   │   ├── database
-│   │   ├── logger
+│   │   ├── prisma
 │   │   └── exceptions
-│   ├── config
 │   └── main.ts
-
+```
 
 ### ⚙️ Tech Stack
 
-| Layer        | Technology            | Reason                                                  |
-|--------------|------------------------|----------------------------------------------------------|
-| Framework    | NestJS                 | Modular, TypeScript-friendly, scalable, DI built-in      |
-| ORM          | Prisma                 | Type-safe, intuitive schema and database migrations      |
-| Database     | PostgreSQL             | Reliable relational DB                                   |
-| HTTP Client  | Axios                  | Simple and widely adopted                                |
-| Logger       | Pino or Winston        | Structured logging                                       |
-| Testing      | Jest                   | Officially supported by NestJS                           |
-| API Docs     | Swagger via @nestjs/swagger | Easy-to-use interface and docs                    |
-| Deployment   | Railway / Render       | Fast, free hosting platforms                             |
-| CI/CD        | GitHub Actions         | Automates tests, lint, and builds                        |
+| Layer        | Technology              | Reason                                                   |
+|--------------|-------------------------|----------------------------------------------------------|
+| Framework    | NestJS                  | Modular, TypeScript-friendly, scalable, DI built-in      |
+| ORM          | Prisma                  | Type-safe, intuitive schema and database migrations      |
+| Database     | PostgreSQL              | Reliable relational DB                                   |
+| HTTP Client  | Axios                   | Simple and widely adopted                                |
+| Logger       | Pino                    | Structured logging                                       |
+| Testing      | Jest                    | Officially supported by NestJS                           |
+| API Docs     | Swagger @nestjs/swagger | Easy-to-use interface and docs                           |
+| Deployment   | Heroku                  | Fast, free hosting platforms                             |
 
 ---
 ## 📦 Installation & Running Locally
@@ -135,4 +135,7 @@ npm run prisma:generate
 
 # Run Prisma migration
 npm run prisma:migrate
+
+# Run Cypress
+npx cypress open
 ```
