@@ -12,6 +12,9 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: 'http://localhost:3001',
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Currency Converter API')
@@ -20,9 +23,9 @@ async function bootstrap() {
     .addTag('transactions')
     .build();
 
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
-    await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

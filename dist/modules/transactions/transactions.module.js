@@ -12,13 +12,17 @@ const transaction_controller_1 = require("./controllers/transaction.controller")
 const transaction_services_1 = require("./services/transaction.services");
 const transaction_repository_1 = require("./repositories/transaction.repository");
 const prisma_service_1 = require("../../shared/prisma/prisma.service");
+const currency_api_module_1 = require("../currency-api/currency-api.module");
+const currency_api_service_1 = require("../currency-api/services/currency-api.service");
 let TransactionModule = class TransactionModule {
 };
 exports.TransactionModule = TransactionModule;
 exports.TransactionModule = TransactionModule = __decorate([
     (0, common_1.Module)({
+        imports: [currency_api_module_1.CurrencyApiModule],
         controllers: [transaction_controller_1.TransactionController],
         providers: [
+            currency_api_service_1.CurrencyApiService,
             transaction_services_1.TransactionService,
             transaction_repository_1.TransactionRepository,
             prisma_service_1.PrismaService,

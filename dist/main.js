@@ -13,6 +13,9 @@ async function bootstrap() {
     app.useLogger(app.get(nestjs_pino_1.Logger));
     app.useGlobalFilters(new http_exception_filter_1.GlobalExceptionFilter());
     app.useGlobalPipes(new common_1.ValidationPipe());
+    app.enableCors({
+        origin: 'http://localhost:3001',
+    });
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Currency Converter API')
         .setDescription('API for converting and persisting currency transactions.')

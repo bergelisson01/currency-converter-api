@@ -11,25 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionService = void 0;
 const common_1 = require("@nestjs/common");
-const axios_1 = require("axios");
 const transaction_repository_1 = require("../repositories/transaction.repository");
+const currency_api_service_1 = require("../../currency-api/services/currency-api.service");
 let TransactionService = class TransactionService {
     transactionRepo;
-    constructor(transactionRepo) {
+    currencyApiService;
+    constructor(transactionRepo, currencyApiService) {
         this.transactionRepo = transactionRepo;
+        this.currencyApiService = currencyApiService;
     }
     async convertCurrency(dto) {
         const { userId, fromCurrency, toCurrency, fromValue } = dto;
-        const response = await axios_1.default.get('https://api.currencyapi.com/v3/latest', {
-            params: {
-                base_currency: fromCurrency,
-                currencies: toCurrency,
-            },
-            headers: {
-                apikey: process.env.CURRENCY_API_KEY,
-            },
-        });
-        const rate = response.data.data[toCurrency]?.value;
+        const rate = await this.currencyApiService.getConversionRate(fromCurrency, toCurrency);
         if (!rate) {
             throw new Error('Failed to fetch conversion rate.');
         }
@@ -60,6 +53,7 @@ let TransactionService = class TransactionService {
 exports.TransactionService = TransactionService;
 exports.TransactionService = TransactionService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [transaction_repository_1.TransactionRepository])
+    __metadata("design:paramtypes", [transaction_repository_1.TransactionRepository,
+        currency_api_service_1.CurrencyApiService])
 ], TransactionService);
 //# sourceMappingURL=transaction.services.js.map

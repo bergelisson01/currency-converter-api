@@ -10,15 +10,15 @@ export declare class TransactionController {
         toCurrency: string;
         fromValue: number;
         toValue: number;
-        rate: any;
+        rate: number;
         timestamp: string;
     }>;
     findAll(userId: string): Promise<{
-        id: number;
         userId: number;
         fromCurrency: string;
         toCurrency: string;
         fromValue: number;
+        id: number;
         toValue: number;
         rate: number;
         timestamp: Date;
