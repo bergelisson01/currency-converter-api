@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: 'https://currency-converter-front-jaya-7439398c4b35.herokuapp.com/',
   });
 
   const config = new DocumentBuilder()
