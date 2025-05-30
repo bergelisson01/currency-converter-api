@@ -20,14 +20,16 @@ let TransactionService = class TransactionService {
     }
     async convertCurrency(dto) {
         const { userId, fromCurrency, toCurrency, fromValue } = dto;
-        const { data } = await axios_1.default.get(`https://api.currencyapi.com/v3/latest`, {
+        const response = await axios_1.default.get('https://api.currencyapi.com/v3/latest', {
             params: {
                 base_currency: fromCurrency,
                 currencies: toCurrency,
+            },
+            headers: {
                 apikey: process.env.CURRENCY_API_KEY,
             },
         });
-        const rate = data.data[toCurrency]?.value;
+        const rate = response.data.data[toCurrency]?.value;
         if (!rate) {
             throw new Error('Failed to fetch conversion rate.');
         }

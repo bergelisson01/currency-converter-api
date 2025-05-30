@@ -7,9 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const nestjs_pino_1 = require("nestjs-pino");
+const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("./shared/prisma/prisma.service");
 const transactions_module_1 = require("./modules/transactions/transactions.module");
 let AppModule = class AppModule {
@@ -17,7 +18,20 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [transactions_module_1.TransactionModule],
+        imports: [
+            nestjs_pino_1.LoggerModule.forRoot({
+                pinoHttp: {
+                    transport: {
+                        target: 'pino-pretty',
+                        options: {
+                            colorize: true,
+                            translateTime: 'SYS:standard',
+                        },
+                    },
+                },
+            }),
+            transactions_module_1.TransactionModule
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, prisma_service_1.PrismaService],
         exports: [prisma_service_1.PrismaService],

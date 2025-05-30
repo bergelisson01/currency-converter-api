@@ -14,11 +14,11 @@ export declare class TransactionService {
         timestamp: string;
     }>;
     getUserTransactions(userId: number): Promise<{
+        id: number;
         userId: number;
         fromCurrency: string;
         toCurrency: string;
         fromValue: number;
-        id: number;
         toValue: number;
         rate: number;
         timestamp: Date;

@@ -16,6 +16,8 @@ exports.TransactionController = void 0;
 const common_1 = require("@nestjs/common");
 const transaction_services_1 = require("../services/transaction.services");
 const convert_request_dto_1 = require("../dto/convert-request.dto");
+const swagger_1 = require("@nestjs/swagger");
+const transaction_response_dto_1 = require("../dto/transaction-response.dto");
 let TransactionController = class TransactionController {
     transactionService;
     constructor(transactionService) {
@@ -40,6 +42,12 @@ let TransactionController = class TransactionController {
 exports.TransactionController = TransactionController;
 __decorate([
     (0, common_1.Post)('/convert'),
+    (0, swagger_1.ApiOperation)({ summary: 'Convert currency and save transaction' }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'Conversion successful',
+        type: transaction_response_dto_1.TransactionResponseDto,
+    }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [convert_request_dto_1.ConvertRequestDto]),
@@ -47,12 +55,14 @@ __decorate([
 ], TransactionController.prototype, "convert", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Get transactions by user ID' }),
     __param(0, (0, common_1.Query)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TransactionController.prototype, "findAll", null);
 exports.TransactionController = TransactionController = __decorate([
+    (0, swagger_1.ApiTags)('transactions'),
     (0, common_1.Controller)('transactions'),
     __metadata("design:paramtypes", [transaction_services_1.TransactionService])
 ], TransactionController);

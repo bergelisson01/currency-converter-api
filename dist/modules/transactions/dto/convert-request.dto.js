@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConvertRequestDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class ConvertRequestDto {
     userId;
     fromCurrency;
@@ -19,20 +20,24 @@ class ConvertRequestDto {
 }
 exports.ConvertRequestDto = ConvertRequestDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 123, description: 'User ID' }),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], ConvertRequestDto.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 'USD', description: 'Currency to convert from' }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], ConvertRequestDto.prototype, "fromCurrency", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 'BRL', description: 'Currency to convert to' }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], ConvertRequestDto.prototype, "toCurrency", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 100, description: 'Amount to convert' }),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], ConvertRequestDto.prototype, "fromValue", void 0);
